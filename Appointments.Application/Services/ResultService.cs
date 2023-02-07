@@ -1,13 +1,13 @@
-﻿
+﻿using Appointments.Domain.Interfaces.Repositories;
+using Appointments.Domain.Interfaces.Services;
 using Appointments.Domain.Entities;
-using Profiles.Domain.Interfaces.Services;
 
-namespace Profiles.Application.Services
+namespace Appointments.Application.Services
 {
     public class ResultService : IResultService
     {
-        private readonly IResultService _resultRepository;
-        public ResultService(IResultService repository)
+        private readonly IResultRepository _resultRepository;
+        public ResultService(IResultRepository repository)
         {
             _resultRepository = repository;
         }
@@ -26,24 +26,48 @@ namespace Profiles.Application.Services
             return result;
         }
 
-        public async Task<Result?> CreateResult(Result result)
+        public async Task<bool> CreateResult(Result result)
         {
-            var createdResult = await _resultRepository.CreateResult(result);
+            if (result is null)
+            {
+                return false;
+            }
 
-            return createdResult;
+            var createResult = await _resultRepository.CreateResult(result);
+
+            return createResult;
         }
 
-        public async Task<Result?> UpdateResult(Result result)
+        public async Task<bool> UpdateResult(int id,Result result)
         {
-            var updatedResult = await _resultRepository.UpdateResult(result);
+            if (result is null)
+            {
+                return false;
+            }
 
-            return updatedResult;
+            Result resultToUpdate = await _resultRepository.GetResult(id);
+
+            if (resultToUpdate is null)
+            {
+                return false;
+            }
+
+            var updateResult = _resultRepository.UpdateResult(resultToUpdate, result);
+
+            return updateResult;
         }
-        public async Task<Result?> DeleteResult(int id)
-        {
-            var deletedResult = await _resultRepository.DeleteResult(id);
 
-            return deletedResult;
+        public async Task<bool> DeleteResult(int id)
+        {
+            Result result = await _resultRepository.GetResult(id);
+            if (result is null)
+            {
+                return false;
+            }
+
+            var deleteResult = _resultRepository.DeleteResult(result);
+
+            return deleteResult;
         }
     }
 }

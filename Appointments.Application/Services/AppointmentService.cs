@@ -1,11 +1,10 @@
-﻿
+﻿using Appointments.Domain.Entities;
+using Appointments.Domain.Interfaces.Repositories;
+using Appointments.Domain.Interfaces.Services;
 
-using Appointments.Domain.Entities;
-using Profiles.Domain.Interfaces.Repositories;
-
-namespace Profiles.Application.Services
+namespace Appointments.Application.Services
 {
-    public class AppointmentService : IAppointmentRepository
+    public class AppointmentService : IAppointmentService
     {
         private readonly IAppointmentRepository _appointmentRepository;
         public AppointmentService(IAppointmentRepository repository)
@@ -27,24 +26,48 @@ namespace Profiles.Application.Services
             return appointment;
         }
 
-        public async Task<Appointment?> CreateAppointment(Appointment appointment)
+        public async Task<bool> CreateAppointment(Appointment appointment)
         {
-            var createdAppointment = await _appointmentRepository.CreateAppointment(appointment);
+            if (appointment is null)
+            {
+                return false;
+            }
 
-            return createdAppointment;
+            var result = await _appointmentRepository.CreateAppointment(appointment);
+
+            return result;
         }
 
-        public async Task<Appointment?> UpdateAppointment(Appointment appointment)
+        public async Task<bool> UpdateAppointment(int id, Appointment appointment)
         {
-            var updatedAppointment = await _appointmentRepository.UpdateAppointment(appointment);
+            if (appointment is null)
+            {
+                return false;
+            }
 
-            return updatedAppointment;
+            Appointment appointmentToUpdate = await _appointmentRepository.GetAppointment(id);
+
+            if (appointmentToUpdate is null)
+            {
+                return false;
+            }
+
+            var result = _appointmentRepository.UpdateAppointment(appointmentToUpdate, appointment);
+
+            return result;
         }
-        public async Task<Appointment?> DeleteAppointment(int id)
-        {
-            var deletedAppointment = await _appointmentRepository.DeleteAppointment(id);
 
-            return deletedAppointment;
+        public async Task<bool> DeleteAppointment(int id)
+        {
+            Appointment appointment = await _appointmentRepository.GetAppointment(id);
+            if (appointment is null)
+            {
+                return false;
+            }
+
+            var result = _appointmentRepository.DeleteAppointment(appointment);
+
+            return result;
         }
     }
 }
