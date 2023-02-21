@@ -1,4 +1,5 @@
-﻿using Appointments.Domain.Entities;
+﻿using Events;
+using Appointments.Domain.Entities;
 using Appointments.WebApi.Models.DTOs;
 using AutoMapper;
 
@@ -8,5 +9,9 @@ public class MappingProfile : Profile {
     {
         CreateMap<Appointment, AppointmentDto>().ReverseMap();
         CreateMap<Result, ResultDto>().ReverseMap();
+
+        CreateMap<Service, ServiceCreated>().ReverseMap();
+        CreateMap<Service, ServiceUpdated>().ReverseMap();
+        CreateMap<Service, ServiceDeleted>().ReverseMap();
     }
 }
