@@ -8,6 +8,7 @@ namespace Appointments.Persistence.Contexts
     {
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Result> Results { get; set; }
+        public DbSet<Service> Services { get; set; }
 
         public AppointmentsDbContext(DbContextOptions<AppointmentsDbContext> options)
         : base(options) { }
@@ -16,6 +17,7 @@ namespace Appointments.Persistence.Contexts
         {
             builder.ApplyConfiguration(new AppointmentsConfiguration());
             builder.ApplyConfiguration(new ResultsConfiguration());
+            builder.ApplyConfiguration(new ServicesConfiguration());
             base.OnModelCreating(builder);
         }
     }
