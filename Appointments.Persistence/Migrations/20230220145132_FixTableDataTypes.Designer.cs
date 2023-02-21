@@ -3,6 +3,7 @@ using System;
 using Appointments.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Appointments.Persistence.Migrations
 {
     [DbContext(typeof(AppointmentsDbContext))]
-    partial class AppointmentsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230220145132_FixTableDataTypes")]
+    partial class FixTableDataTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,10 +94,9 @@ namespace Appointments.Persistence.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ServiceCategoryName")
-                        .IsRequired()
+                    b.Property<int>("ServiceCategoryName")
                         .HasMaxLength(350)
-                        .HasColumnType("character varying(350)");
+                        .HasColumnType("integer");
 
                     b.Property<string>("ServiceName")
                         .IsRequired()
@@ -105,10 +106,10 @@ namespace Appointments.Persistence.Migrations
                     b.Property<decimal?>("ServicePrice")
                         .HasColumnType("numeric(10,2)");
 
-                    b.Property<string>("SpecializationName")
+                    b.Property<int?>("SpecializationName")
                         .IsRequired()
                         .HasMaxLength(350)
-                        .HasColumnType("character varying(350)");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("TimeSlotSize")
                         .HasColumnType("timestamp");
