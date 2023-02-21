@@ -17,6 +17,7 @@ namespace Appointments.Persistence
 
             services.AddScoped<IAppointmentRepository, AppointmentRepository>();
             services.AddScoped<IResultRepository, ResultRepository>();
+            services.AddScoped<IServiceRepository, ServiceRepository>();
 
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IResultService, ResultService>();
