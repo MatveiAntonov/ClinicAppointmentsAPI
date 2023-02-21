@@ -2,7 +2,9 @@
 using Appointments.Domain.Interfaces.Services;
 using Appointments.WebApi.Models.DTOs;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Profiles.WebApi.Controllers
 {
@@ -55,6 +57,7 @@ namespace Profiles.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Receptionist")]
         public async Task<ActionResult> CreateAppointment([FromForm] AppointmentDto entity)
         {
             if (entity == null)
@@ -74,6 +77,7 @@ namespace Profiles.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Receptionist")]
         public async Task<ActionResult> UpdateAppointment(int id, [FromForm] AppointmentDto entity)
         {
             if (entity == null)
@@ -99,6 +103,7 @@ namespace Profiles.WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Receptionist")]
         public async Task<ActionResult> DeleteAppointment(int id)
         {
             if (await _appointmentService.GetAppointment(id) is null)
