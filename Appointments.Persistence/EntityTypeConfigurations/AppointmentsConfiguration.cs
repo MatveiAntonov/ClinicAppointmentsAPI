@@ -16,6 +16,15 @@ namespace Appointments.Persistence.EntityTypeConfigurations
                 .IsRequired();
             builder.Property(appointment => appointment.DateTime)
                 .HasColumnType("timestamp");
+            builder.HasOne(appointment => appointment.Service)
+                .WithMany()
+                .HasForeignKey(appointment => appointment.ServiceId);
+            builder.HasOne(appointment => appointment.Doctor)
+                .WithMany()
+                .HasForeignKey(appointment => appointment.DoctorId);
+            builder.HasOne(appointment => appointment.Patient)
+                .WithMany()
+                .HasForeignKey(appointment => appointment.PatientId);
         }
     }
 }
