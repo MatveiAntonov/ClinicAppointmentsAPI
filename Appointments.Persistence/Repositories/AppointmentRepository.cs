@@ -15,11 +15,18 @@ namespace Appointments.Persistence.Repositories
         }
         public async Task<IEnumerable<Appointment?>> GetAllAppointments()
         {
-            return await _appointmentsDbContext.Appointments.ToListAsync();
+            return await _appointmentsDbContext.Appointments
+                .Include(appointment => appointment.Patient)
+                .Include(appointment => appointment.Doctor)
+                .Include(appointment => appointment.Service)
+                .ToListAsync();
         }
         public async Task<Appointment?> GetAppointment(int id)
         {
             return await _appointmentsDbContext.Appointments
+                .Include(appointment => appointment.Patient)
+                .Include(appointment => appointment.Doctor)
+                .Include(appointment => appointment.Service)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
@@ -27,10 +34,27 @@ namespace Appointments.Persistence.Repositories
         {
             try
             {
-                await _appointmentsDbContext.Appointments.AddAsync(appointment);
-                _appointmentsDbContext.SaveChanges();
+                var doctor = _appointmentsDbContext.Doctors
+                    .FirstOrDefault(doctor => doctor.Id == appointment.DoctorId);
 
-                return true;
+                var patient = _appointmentsDbContext.Patients
+                    .FirstOrDefault(patient => patient.Id == appointment.PatientId);
+
+                var service = _appointmentsDbContext.Services
+                    .FirstOrDefault(service => service.Id == appointment.ServiceId);
+
+                if (doctor is not null & patient is not null & service is not null)
+                {
+                    appointment.Doctor = doctor;
+                    appointment.Patient = patient;
+                    appointment.Service = service;
+
+                    await _appointmentsDbContext.Appointments.AddAsync(appointment);
+                    _appointmentsDbContext.SaveChanges();
+
+                    return true;
+                }
+                return false;
             }
             catch
             {
@@ -42,15 +66,31 @@ namespace Appointments.Persistence.Repositories
         {
             try
             {
-                appointment.PatientId = entity.PatientId;
-                appointment.DoctorId = entity.DoctorId;
-                appointment.ServiceId = entity.ServiceId;
-                appointment.DateTime = entity.DateTime;
-                appointment.IsApproved = entity.IsApproved;
+                var doctor = _appointmentsDbContext.Doctors
+                    .FirstOrDefault(doctor => doctor.Id == appointment.DoctorId);
 
-                _appointmentsDbContext.SaveChanges();
+                var patient = _appointmentsDbContext.Patients
+                    .FirstOrDefault(patient => patient.Id == appointment.PatientId);
 
-                return true;
+                var service = _appointmentsDbContext.Services
+                    .FirstOrDefault(service => service.Id == appointment.ServiceId);
+
+                if (doctor is not null & patient is not null & service is not null)
+                {
+                    appointment.PatientId = entity.PatientId;
+                    appointment.DoctorId = entity.DoctorId;
+                    appointment.ServiceId = entity.ServiceId;
+                    appointment.DateTime = entity.DateTime;
+                    appointment.IsApproved = entity.IsApproved;
+                    appointment.Doctor = doctor;
+                    appointment.Patient = patient;
+                    appointment.Service = service;
+
+                    _appointmentsDbContext.SaveChanges();
+
+                    return true;
+                }
+                return false;
             }
             catch
             {
