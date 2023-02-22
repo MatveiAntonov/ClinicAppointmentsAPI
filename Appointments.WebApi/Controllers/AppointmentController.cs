@@ -57,7 +57,7 @@ namespace Profiles.WebApi.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Receptionist")]
+        //[Authorize(Roles = "Receptionist")]
         public async Task<ActionResult> CreateAppointment([FromForm] AppointmentDto entity)
         {
             if (entity == null)
@@ -76,14 +76,14 @@ namespace Profiles.WebApi.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        [Authorize(Roles = "Receptionist")]
-        public async Task<ActionResult> UpdateAppointment(int id, [FromForm] AppointmentDto entity)
+        [HttpPut]
+        //[Authorize(Roles = "Receptionist")]
+        public async Task<ActionResult> UpdateAppointment([FromForm] AppointmentDto entity)
         {
             if (entity == null)
                 return BadRequest();
 
-            var appointmentToUpdate = await _appointmentService.GetAppointment(id);
+            var appointmentToUpdate = await _appointmentService.GetAppointment(entity.Id);
             if (appointmentToUpdate is null)
             {
                 return NotFound();
@@ -91,7 +91,7 @@ namespace Profiles.WebApi.Controllers
 
             var appointment = _mapper.Map<Appointment>(entity);
 
-            var result = await _appointmentService.UpdateAppointment(id, appointment);
+            var result = await _appointmentService.UpdateAppointment(entity.Id, appointment);
             if (result != false)
             {
                 return Ok();
@@ -103,7 +103,7 @@ namespace Profiles.WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Receptionist")]
+        //[Authorize(Roles = "Receptionist")]
         public async Task<ActionResult> DeleteAppointment(int id)
         {
             if (await _appointmentService.GetAppointment(id) is null)

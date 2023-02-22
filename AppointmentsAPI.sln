@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{0E25EF94-D496-42FD-A8ED-2622FF615DED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{9EF813DA-5918-4878-A05E-7E0843D13BEE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{8F9082EA-7786-43C6-BA8D-819B27EC8A74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointments.Application", "Appointments.Application\Appointments.Application.csproj", "{032C287E-CA51-4284-8B2E-3A09841D111E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointments.Domain", "Appointments.Domain\Appointments.Domain.csproj", "{448B25FA-DE20-4DF0-94B7-DA6744CCEE80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointments.Persistence", "Appointments.Persistence\Appointments.Persistence.csproj", "{7691B179-EA00-4853-AE1A-31723D9DE41B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appointments.WebApi", "Appointments.WebApi\Appointments.WebApi.csproj", "{B80FD94B-87B4-432F-A045-C30D35C05BB7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{032C287E-CA51-4284-8B2E-3A09841D111E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{032C287E-CA51-4284-8B2E-3A09841D111E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{032C287E-CA51-4284-8B2E-3A09841D111E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{032C287E-CA51-4284-8B2E-3A09841D111E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{448B25FA-DE20-4DF0-94B7-DA6744CCEE80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{448B25FA-DE20-4DF0-94B7-DA6744CCEE80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{448B25FA-DE20-4DF0-94B7-DA6744CCEE80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{448B25FA-DE20-4DF0-94B7-DA6744CCEE80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7691B179-EA00-4853-AE1A-31723D9DE41B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7691B179-EA00-4853-AE1A-31723D9DE41B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7691B179-EA00-4853-AE1A-31723D9DE41B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7691B179-EA00-4853-AE1A-31723D9DE41B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B80FD94B-87B4-432F-A045-C30D35C05BB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B80FD94B-87B4-432F-A045-C30D35C05BB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B80FD94B-87B4-432F-A045-C30D35C05BB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B80FD94B-87B4-432F-A045-C30D35C05BB7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{032C287E-CA51-4284-8B2E-3A09841D111E} = {0E25EF94-D496-42FD-A8ED-2622FF615DED}
+		{448B25FA-DE20-4DF0-94B7-DA6744CCEE80} = {0E25EF94-D496-42FD-A8ED-2622FF615DED}
+		{7691B179-EA00-4853-AE1A-31723D9DE41B} = {9EF813DA-5918-4878-A05E-7E0843D13BEE}
+		{B80FD94B-87B4-432F-A045-C30D35C05BB7} = {8F9082EA-7786-43C6-BA8D-819B27EC8A74}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F5435045-8C73-4631-84B3-6F7545AC5DB6}
+	EndGlobalSection
+EndGlobal

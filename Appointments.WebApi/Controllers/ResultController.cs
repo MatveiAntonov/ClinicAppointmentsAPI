@@ -58,7 +58,7 @@ namespace Profiles.WebApi.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Receptionist")]
+        //[Authorize(Roles = "Receptionist")]
         public async Task<ActionResult> CreateResult([FromForm] ResultDto entity)
         {
             if (entity == null)
@@ -77,14 +77,14 @@ namespace Profiles.WebApi.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        [Authorize(Roles = "Receptionist")]
-        public async Task<ActionResult> UpdateResult(int id, [FromForm] ResultDto entity)
+        [HttpPut]
+        //[Authorize(Roles = "Receptionist")]
+        public async Task<ActionResult> UpdateResult([FromForm] ResultDto entity)
         {
             if (entity == null)
                 return BadRequest();
 
-            var checkResult = await _resultService.GetResult(id);
+            var checkResult = await _resultService.GetResult(entity.Id);
             if (checkResult is null)
             {
                 return NotFound();
@@ -92,7 +92,7 @@ namespace Profiles.WebApi.Controllers
 
             var resultToUpdate = _mapper.Map<Result>(entity);
 
-            var result = await _resultService.UpdateResult(id, resultToUpdate);
+            var result = await _resultService.UpdateResult(entity.Id, resultToUpdate);
             if (result != false)
             {
                 return Ok();
@@ -104,7 +104,7 @@ namespace Profiles.WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Receptionist")]
+        //[Authorize(Roles = "Receptionist")]
         public async Task<ActionResult> DeleteResult(int id)
         {
             if (await _resultService.GetResult(id) is null)
