@@ -3,6 +3,7 @@ using System;
 using Appointments.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Appointments.Persistence.Migrations
 {
     [DbContext(typeof(AppointmentsDbContext))]
-    partial class AppointmentsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230221092645_AddDoctorTable")]
+    partial class AddDoctorTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,14 +49,8 @@ namespace Appointments.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DoctorId");
-
                     b.HasIndex("Id")
                         .IsUnique();
-
-                    b.HasIndex("PatientId");
-
-                    b.HasIndex("ServiceId");
 
                     b.ToTable("Appointments");
                 });
@@ -116,37 +112,6 @@ namespace Appointments.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Doctors");
-                });
-
-            modelBuilder.Entity("Appointments.Domain.Entities.Patient", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("MiddleName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhotoUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("Appointments.Domain.Entities.Result", b =>
@@ -215,31 +180,6 @@ namespace Appointments.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Services");
-                });
-
-            modelBuilder.Entity("Appointments.Domain.Entities.Appointment", b =>
-                {
-                    b.HasOne("Appointments.Domain.Entities.Doctor", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Appointments.Domain.Entities.Patient", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Appointments.Domain.Entities.Service", "Service")
-                        .WithMany()
-                        .HasForeignKey("ServiceId");
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("Patient");
-
-                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("Appointments.Domain.Entities.Result", b =>

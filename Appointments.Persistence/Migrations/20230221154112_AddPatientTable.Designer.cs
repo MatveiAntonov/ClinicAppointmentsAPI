@@ -3,6 +3,7 @@ using System;
 using Appointments.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Appointments.Persistence.Migrations
 {
     [DbContext(typeof(AppointmentsDbContext))]
-    partial class AppointmentsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230221154112_AddPatientTable")]
+    partial class AddPatientTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,14 +49,8 @@ namespace Appointments.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DoctorId");
-
                     b.HasIndex("Id")
                         .IsUnique();
-
-                    b.HasIndex("PatientId");
-
-                    b.HasIndex("ServiceId");
 
                     b.ToTable("Appointments");
                 });
@@ -127,7 +123,7 @@ namespace Appointments.Persistence.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -215,31 +211,6 @@ namespace Appointments.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Services");
-                });
-
-            modelBuilder.Entity("Appointments.Domain.Entities.Appointment", b =>
-                {
-                    b.HasOne("Appointments.Domain.Entities.Doctor", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Appointments.Domain.Entities.Patient", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Appointments.Domain.Entities.Service", "Service")
-                        .WithMany()
-                        .HasForeignKey("ServiceId");
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("Patient");
-
-                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("Appointments.Domain.Entities.Result", b =>
