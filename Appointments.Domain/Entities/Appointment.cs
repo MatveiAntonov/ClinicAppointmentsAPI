@@ -1,5 +1,4 @@
-﻿
-namespace Appointments.Domain.Entities
+﻿namespace Appointments.Domain.Entities
 {
     public class Appointment
     {
