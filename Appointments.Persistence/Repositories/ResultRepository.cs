@@ -2,17 +2,21 @@
 using Appointments.Persistence.Contexts;
 using Appointments.Domain.Interfaces.Repositories;
 using Appointments.Domain.Entities;
-using System.Numerics;
+using Appointments.Application.Logic;
+using Events;
+using MassTransit;
 
 namespace Appointments.Persistence.Repositories
 {
     public class ResultRepository : IResultRepository
     {
         private readonly AppointmentsDbContext _appointmentsDbContext;
+		private readonly IPublishEndpoint _publishEndpoint;
 
-        public ResultRepository(AppointmentsDbContext appointmentsDbContext)
+		public ResultRepository(AppointmentsDbContext appointmentsDbContext, IPublishEndpoint publishEndpoint)
         {
             _appointmentsDbContext = appointmentsDbContext;
+            _publishEndpoint = publishEndpoint;
         }
         public async Task<IEnumerable<Result?>> GetAllResults()
         {
@@ -46,6 +50,14 @@ namespace Appointments.Persistence.Repositories
 
                     await _appointmentsDbContext.Results.AddAsync(result);
                     _appointmentsDbContext.SaveChanges();
+
+                    var pdf = PdfGenerator.CreatePDF(result.Complaints, result.Conclusion, result.Recomendations);
+
+                    await _publishEndpoint.Publish<ResultCreated>(new
+                    {
+                        Id = result.Id,
+                        Document = pdf
+                    });
 
                     return true;
                 }
