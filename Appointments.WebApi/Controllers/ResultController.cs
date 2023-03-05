@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Appointments.Domain.Interfaces.Services;
 using Appointments.WebApi.Models.DTOs;
 using Appointments.Domain.Entities;
-using Appointments.Application.Services;
-using Microsoft.AspNetCore.Authorization;
-using System.Data;
 
 namespace Profiles.WebApi.Controllers
 {
