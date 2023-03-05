@@ -30,8 +30,14 @@ services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, cfg) =>
     {
+        cfg.Host("rabbit-mq", "/", h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
         cfg.ConfigureEndpoints(context);
     });
+
 });
 
 services.AddControllers();
@@ -46,3 +52,5 @@ app.UseEndpoints(endpoints =>
 app.ConfigureExceptionHandler();
 
 app.Run();
+
+public partial class Program { }
